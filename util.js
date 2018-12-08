@@ -7,6 +7,13 @@
  */
 (function(root){
 	root.Util = {
+		/** 判断null (js 中的bug之一，typeof null 返回 object)*/
+		isNull: function(obj){
+			if(!obj && typeof obj === 'object'){
+				return true;
+			}
+			return false;
+		},
 			/**
 			 * 深拷贝函数
 			 * */
