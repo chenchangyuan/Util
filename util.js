@@ -418,50 +418,38 @@
 		/**
 		 * ajax方法封装
 		 * */
-		ajax: function(config){
-			var url = config.url,
-				data = config.data,
-				type = (config.type || 'GET').toUpperCase(),
-				contentType = config.contentType || 'application/x-www-form-urlencoded',
-				dataType = config.dataType,
-				headers = config.headers || [],
-				async = config.async || true,
-				fnSuccess = config.success,
-				fnError = config.error,
-				xmlHttp;
-			if(window.XMLHttpRequest){
-				xmlHttp = new XMLHttpRequest();
-			}else{
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		ajax: function(option = {}){
+		    option.type = (option.type || 'GET').toUpperCase();
+		    var xmlHttp,
+			_async = option.async || true,
+			data = [];
+		    for(var i in option.data){
+			data.push(encodeURIComponent(i) + '=' + encodeURIComponent(option.data[i]))
+		    }
+		    data = data.join('&');
+		    if(window.XMLHttpRequest){
+			xmlHttp = new XMLHttpRequest();
+		    }else{
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		    }
+		    xmlHttp.onreadystatechange = function(){
+			if(xmlHttp.readyState === 4){
+			    var status = xmlHttp.status;
+			    if(status >= 200 && status < 300){
+				var rsp = xmlHttp.responseText || xmlHttp.responseXML;
+				option.success && option.success(JSON.parse(rsp))
+			    }else{
+				option.error && option.error(status);
+			    }
 			}
-			xmlHttp.onreadystatechange = function(){
-				if(xmlHttp.readyState === 4){
-					if(xmlHttp.status === 200){
-						var rsp = xmlHttp.responseText || xmlHttp.responseXML;
-						if(dataType === 'json'){
-							rsp = eval('('+rsp+')');
-						}
-						Util.call(fnSuccess,[rsp,xmlHttp.statusText,xmlHttp]);
-					}else{
-						Util.call(fnError,[xmlHttp.statusText,xmlHttp]);
-					}
-				}
-			};
-			xmlHttp.open(type, url, async);
-			for(var i=0;i<headers.length;i++){
-				xmlHttp.setRequestHeader(headers[i].name,headers[i].value);
-			}
-			xmlHttp.setRequestHead('Content-Type',contentType);
-			if(typeof data === 'object' && contentType === 'application/x-www-form-urlencoded'){
-				var s = '';
-				for(var attr in data){
-					s += attr + '=' + data[attr] + '&';
-				}
-				s = s.substring(0,s.length-1);
-				xmlHttp.send(s);
-			}else{
-				xmlHttp.send(data);
-			}
+		    };
+		    if(option.type === 'GET'){
+			xmlHttp.open('GET', option.url + '?' + data, _async);
+		    }else if(option.type === 'POST'){
+			xmlHttp.open('POST', option.url, _async);
+			xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xmlHttp.send(data);
+		    }
 		},
 		/**
 		 * 根据ID获取某个元素
