@@ -382,7 +382,7 @@
 		 * @param {string} str
 		 * */
 		trim: function(str){
-			return str.replace(/^\s*(.*?)\s*$/g, '&1');
+			return str.replace(/^\s*(.*?)\s*$/g, '$1');
 		},
 		/**
 		 * 自定义call函数
