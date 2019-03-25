@@ -1,5 +1,5 @@
 /**
- * Util 工具类实现 IPTV EPG 前端常用的方法集
+ * Util 工具类实现，前端常用的方法集
  * @version 1.0.0
  * @author ccy
  * @date 2018/11/05
@@ -456,14 +456,14 @@
 		 * @param id
 		 * @return dom元素对象
 		 */
-		G: function(id){
+		get: function(id){
 			return document.getElementById(id);
 		},
 		/**
 		 * 显示一个元素
 		 * @param id
 		 */
-		S: function(id)
+		v: function(id)
 		{
 			var temp = G(id);
 			if(temp){
@@ -474,7 +474,7 @@
 		 * 隐藏一个元素
 		 * @param id
 		 */
-		H: function(id)
+		h: function(id)
 		{
 			var temp = G(id);
 			if(temp){
@@ -485,7 +485,7 @@
 		 * 显示一个元素，与S不同的是，修改的是display属性
 		 * @param id
 		 */
-		Show: function(id)
+		displayB: function(id)
 		{
 			var temp = G(id);
 			if(temp){
@@ -496,7 +496,7 @@
 		 * 隐藏一个元素，同Show
 		 * @param id
 		 */
-		Hide: function(id)
+		displayN: function(id)
 		{
 			var temp = G(id);
 			if(temp){
