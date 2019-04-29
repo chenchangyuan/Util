@@ -208,7 +208,7 @@
 				}else{
 					return Array.prototype.reduce;
 				}
-			}
+			},
 			/**
 			 * 兼容window.JSON
 			 * 详情参见：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON
